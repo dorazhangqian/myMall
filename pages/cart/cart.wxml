@@ -1,0 +1,51 @@
+<!--pages/cart/cart.wxml-->
+<view class='cart'>
+
+  <!-- listItem.length == 0 -->
+  <view wx:if='{{listItem.length == 0}}' class='noData'>
+    <image src='../../assets/icons/list_screen_ic_empty.png'></image>
+    <view class='allData'>抱歉，没有找到相关的商品</view>
+    <button class='toHome' bindtap='toHomePage'>去首页逛逛</button>
+  </view>
+
+  <!-- listItem.length != 0 -->
+  <view class='list'>
+    <block wx:for="{{listItem}}" wx:key="{{index}}">
+      <view class='listItem'>
+        <checkbox value="{{index}}" data-index='{{index}}' checked="{{item.checked}}" bindtap="checkboxChange"/>
+        <view class='detail'>
+          <image src='{{item.img}}'></image>
+          <view class='detail_r'>
+            <view class='detail_rT'>
+              <text>{{item.title}}</text>
+              <text>{{item.attr}}</text>
+            </view>
+            <view class='detail_rB'>
+              <text>¥{{item.price}}</text>
+              <view class="stepper">
+                <!-- 减号 -->
+                <text class="{{minusStatus}}" bindtap="bindMinus">-</text>
+                <!-- 数值 -->
+                <input type="number" bindchange="bindManual" value="{{item.num}}" />
+                <!-- 加号 -->
+                <text class="normal" bindtap="bindPlus">+</text>
+              </view>
+            </view>
+          </view>
+
+        </view>
+      </view>
+    </block>
+
+  </view>
+
+  <view class='bottomCont'>
+    <view class='bottomContL'>
+      <view>
+        <checkbox bindtap='allCheckbox' value="1" checked="{{selectedAllStatus}}" />全选（{{chooseNum}}）
+      </view>
+      <view>合计:¥{{allPrice}}</view>
+    </view>
+    <view bindtap='toConfirm' class='bottomContR {{listItem.length == 0 ?"bcGray":""}}'>下单</view>
+  </view>
+</view>
