@@ -1,4 +1,5 @@
 // pages/myAddr/myAddr.js
+const app = getApp();
 Page({
 
   /**
@@ -16,6 +17,27 @@ Page({
    */
   onLoad: function (options) {
 
+  },
+  myaddr(){
+    wx.chooseAddress({
+      success: (res) => {
+        console.log(res);
+        let addrs=this.data.addrs;
+        addrs.push({
+          addr: res.provinceName+res.cityName+res.countyName+res.detailInfo,
+          name:res.userName,
+          phone:res.telNumber,
+          flag:false
+        })
+        this.setData({
+          addrs:addrs
+        })
+      },
+      fail: (error) => {
+        console.log(error);
+        app.checkAuthorize('scope.address')
+      }
+    })
   },
 
   /**
@@ -69,6 +91,35 @@ Page({
   toAddAddr(){
     wx.navigateTo({
       url: '../addAddr/addAddr',
+    })
+  },
+  // 设为默认，取消默认
+  setDefault(e){
+    console.log(e.currentTarget.dataset.index);
+    var addrs=this.data.addrs;
+    for(var i=0; i<addrs.length;i++){
+      if (i == e.currentTarget.dataset.index){
+        addrs[i].flag = !addrs[i].flag;
+      }else{
+        addrs[i].flag=false;
+      }
+    }
+    this.setData({
+      addrs:addrs
+    })
+  },
+  // 删除地址
+  delAddr(){
+    wx.showToast({
+      title: '删除',
+    })
+
+  },
+  // 编辑地址
+  toDetail(e){
+    console.log(e.currentTarget.dataset.id);
+    wx.navigateTo({
+      url: '../addAddr/addAddr?id=' + e.currentTarget.dataset.id
     })
   }
 })

@@ -1,4 +1,6 @@
 // pages/cart/cart.js
+var recordStartX = 0;
+var currentOffsetX = 0;
 Page({
 
   /**
@@ -11,8 +13,9 @@ Page({
     minusStatus: 'disabled',
     chooseNum:0,
     listItem:[
-      { id: '1', title: '学生看书架临帖读书架书立神器阅读架多功', img: '../../assets/imgs/listImg2.png', num: '2', price: '10', attr: '属性1;属性2', checked:false},
-      { id: '2', title: '学生看书架临帖读书架书立神器阅读架多功', img: '../../assets/imgs/listImg2.png', num: '3', price: '20', attr: '属性1;属性2', checked:false }
+      { id: '1', title: '学生看书架临帖读书架书立神器阅读架多功', img: '../../assets/imgs/listImg2.png', num: 2, price: 10, attr: '属性1;属性2', checked:false},
+      { id: '2', title: '学生看书架临帖读书架书立神器阅读架多功', img: '../../assets/imgs/listImg2.png', num: 3, price: 20, attr: '属性1;属性2', checked:false },
+      { id: '3', title: '学生看书架临帖读书架书立神器阅读架多功', img: '../../assets/imgs/listImg2.png', num: 3, price: 20, attr: '属性1;属性2', checked: true }
         ],
     allPrice:0,
     selectedAllStatus: false,
@@ -22,6 +25,7 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
+   
 
   },
 
@@ -29,168 +33,194 @@ Page({
    * 生命周期函数--监听页面初次渲染完成
    */
   onReady: function () {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面显示
-   */
-  onShow: function () {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面隐藏
-   */
-  onHide: function () {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面卸载
-   */
-  onUnload: function () {
-
-  },
-
-  /**
-   * 页面相关事件处理函数--监听用户下拉动作
-   */
-  onPullDownRefresh: function () {
-
-  },
-
-  /**
-   * 页面上拉触底事件的处理函数
-   */
-  onReachBottom: function () {
-
-  },
-
-  /**
-   * 用户点击右上角分享
-   */
-  onShareAppMessage: function () {
-
+    this.calculateTotal();
+ 
   },
    toConfirm() {
     wx.navigateTo({
       url: '../orderConfirm/orderConfirm'
     })
   },
-  /* 点击减号 */
-  bindMinus: function (e) {
-    console.log(e);
-    var num = this.data.num;
-    // 如果大于1时，才可以减
-    if (num > 1) {
-      num--;
-    }
-    // 只有大于一件的时候，才能normal状态，否则disable状态
-    var minusStatus = num <= 1 ? 'disabled' : 'normal';
-    // 将数值与状态写回
-    this.setData({
-      num: num,
-      minusStatus: minusStatus
-    });
-  },
-  /* 点击加号 */
-  bindPlus: function (e) {
-    console.log(e);
-    var num = this.data.num;
-    // 不作过多考虑自增1
-    num++;
-    // 只有大于一件的时候，才能normal状态，否则disable状态
-    var minusStatus = num < 1 ? 'disabled' : 'normal';
-    // 将数值与状态写回
-    this.setData({
-      num: num,
-      minusStatus: minusStatus
-    });
-  },
+  
   /* 输入框事件 */
   bindManual: function (e) {
     var num = e.detail.value;
+    let listItem = this.data.listItem;
+    listItem[e.currentTarget.dataset.index].num=num;
     // 将数值与状态写回
     this.setData({
-      num: num
+      listItem:listItem
     });
+    this.calculateTotal();
   },
   toHomePage(){
     wx.switchTab({
       url: '../index/index'
     })
   },
-  // 单选按钮
-  checkboxChange: function (e) {
-    var index = parseInt(e.currentTarget.dataset.index);
-    var listItem = this.data.listItem;
-    var checked = this.data.listItem[index].checked;
-    if (!checked) {
-      this.setData({
-        allPrice: parseInt(this.data.listItem[index].num) * parseFloat(this.data.listItem[index].price) + parseFloat(this.data.allPrice),
-        chooseNum: this.data.chooseNum + 1
-      });
-    }
-    else {
-      this.setData({
-        allPrice: parseFloat(this.data.allPrice) - parseInt(this.data.listItem[index].num) * parseFloat(this.data.listItem[index].price),
-        chooseNum: this.data.chooseNum-1
-      });
-    }
-    listItem[index].checked = !checked;
-    var r = listItem.filter((item) => {
-      return item.checked
+  /**
+     * 删除购物车当前商品
+     */
+  deleteList(e) {
+    const index = e.currentTarget.dataset.index;
+    let listItem = this.data.listItem;
+    listItem.splice(index, 1);
+    this.setData({
+      listItem: listItem
     });
-    if (r.length == listItem.length) {
+    if (!listItem.length) {
       this.setData({
-        selectedAllStatus: true
-      })
+        iscart: true
+      });
+    } else {
+      this.calculateTotal();
     }
-    else {
+  },
+
+  /**
+   * 计算商品总数
+   */
+  calculateTotal: function () {
+    var listItem = this.data.listItem;
+    var chooseNum = 0;
+    var allPrice = 0;
+    for (var i = 0; i < listItem.length; i++) {
+      var good = listItem[i];
+      if (good.checked) {
+        chooseNum += parseInt(good.num);
+        allPrice += good.num * good.price;
+      }
+    }
+    allPrice = allPrice.toFixed(2);
+    this.setData({
+      'chooseNum': chooseNum,
+      'allPrice': allPrice
+    })
+  },
+
+  /**
+   * 用户点击商品减1
+   */
+  subtracttap: function (e) {
+    var index = e.target.dataset.index;
+    var listItem = this.data.listItem;
+    var num = listItem[index].num;
+    if (num <= 1) {
+      return;
+    } else {
+      listItem[index].num--;
       this.setData({
-        selectedAllStatus: false
-      })
+        'listItem': listItem
+      });
+      this.calculateTotal();
+    }
+  },
+
+  /**
+   * 用户点击商品加1
+   */
+  addtap: function (e) {
+    var index = e.target.dataset.index;
+    var listItem = this.data.listItem;
+    var num = listItem[index].num;
+    listItem[index].num++;
+    this.setData({
+      'listItem': listItem
+    });
+    this.calculateTotal();
+  },
+  /**
+   * 用户选择购物车商品
+   */
+  checkboxChange: function (e) {
+    console.log('checkbox发生change事件，携带value值为：', e);
+    var checkboxItems = this.data.listItem;
+    var values = e.detail.value;
+    for (var i = 0; i < checkboxItems.length; ++i) {
+      checkboxItems[i].checked = false;
+      for (var j = 0; j < values.length; ++j) {
+        if (checkboxItems[i].id == values[j]) {
+          checkboxItems[i].checked = true;
+          break;
+        }
+      }
+    }
+
+    var selectedAllStatus = false;
+    if (checkboxItems.length == values.length) {
+      selectedAllStatus = true;
+    }
+
+    this.setData({
+      'listItem': checkboxItems,
+      'selectedAllStatus': selectedAllStatus
+    });
+    this.calculateTotal();
+  },
+
+  /**
+   * 用户点击全选
+   */
+  selectalltap: function (e) {
+    // console.log('用户点击全选，携带value值为：', e.detail.value);
+    var value = e.detail.value;
+    var selectedAllStatus = false;
+    if (value && value[0]) {
+      selectedAllStatus = true;
+    }
+    var listItem = this.data.listItem;
+    for (var i = 0; i < listItem.length; i++) {
+      var good = listItem[i];
+      good['checked'] = selectedAllStatus;
+    }
+
+    this.setData({
+      'selectedAllStatus': selectedAllStatus,
+      'listItem': listItem
+    });
+    this.calculateTotal();
+  },
+  recordStart: function (e) {
+    recordStartX = e.touches[0].clientX;
+    currentOffsetX = this.data.listItem[0].offsetX;
+    console.log('start x ', recordStartX);
+  }
+  ,
+
+
+  // 左滑删除
+  recordMove: function (e) {
+    var listItem = this.data.listItem;
+    var item = listItem[0];
+    var x = e.touches[0].clientX;
+    var mx = recordStartX - x;
+    console.log('move x ', mx);
+
+    var result = currentOffsetX - mx;
+    if (result >= -80 && result <= 0) {
+      item.offsetX = result;
     }
     this.setData({
       listItem: listItem
     });
-  },
-  // 全选按钮
-  allCheckbox: function (e) {
-    var selectedAllStatus = this.data.selectedAllStatus;
-    selectedAllStatus = !selectedAllStatus;
-    this.setData({
-      selectedAllStatus: selectedAllStatus
-    })
-    var listItem = this.data.listItem;
-    if (selectedAllStatus) {
-      for (var i = 0; i < listItem.length; i++) {
-        listItem[i].checked = selectedAllStatus;
-        var num = parseInt(this.data.listItem[i].num);
-        var price = parseFloat(this.data.listItem[i].price);
-        this.setData({
-          allPrice: this.data.allPrice + num * price,
-          listItem: listItem,
-          chooseNum: listItem.length
-        })
-      }
-    }
-    else {
-      for (var i = 0; i < listItem.length; i++) {
-        listItem[i].checked = selectedAllStatus;
-        var num = parseInt(this.data.listItem[i].num);
-        var price = parseFloat(this.data.listItem[i].price);
-        this.setData({
-          allPrice: 0,
-          listItem: listItem,
-          chooseNum:0
-        })
-      }
-    }
   }
+  ,
+  recordEnd: function (e) {
+    var listItem = this.data.listItem;
+    var item = listItem[0];
+    console.log('end x ', item.offsetX);
 
+    if (item.offsetX < -40) {
+      item.offsetX = -80;
 
+    } else {
+      item.offsetX = 0;
+
+    }
+    this.setData({
+      listItem: listItem
+    });
+  }
 
 
 })

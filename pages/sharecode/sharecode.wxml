@@ -53,7 +53,10 @@
 
 <view class="wx-popup" hidden="{{flagPoster}}">
 <view class='popC'>
-  <view class='popup-containerP' catchtap='showPoster'>
+
+  <canvas canvas-id="canvas" class="popup-containerP"></canvas>
+
+  <!-- <view class='popup-containerP' catchtap='showPoster'>
     <view class='userInfo'>
       <image src='../../assets/icons/details_share_poster_ic_head_def.png'></image>
       <view>
@@ -72,9 +75,12 @@
         <view>292345</view>
       </view>
     </view>
-  </view>
+  </view> -->
+
+
+
   <view class='twoBtn'>
-  <view><button>保存到本地</button></view>
+  <view><button catchtap='saveImg'>保存到本地</button></view>
   <view><button catchtap='hidePoster'>关闭</button></view>   
   </view>
   </view>

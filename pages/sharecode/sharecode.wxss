@@ -183,7 +183,7 @@ page {
   height: 944rpx;
   border-radius: 12rpx;
   background: #ff5b40;
-  padding: 36rpx;
+  padding: 0 36rpx; 
 }
 
 .popup-containerP .userInfo {

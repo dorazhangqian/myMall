@@ -3,10 +3,10 @@
  
 
   <block wx:for="{{addrs}}" wx:key='{{index}}'>
-     <view class='listItem'>
+     <view class='listItem' catchtap='toDetail' data-id="{{index}}">
     <view>
-     <view><button class='{{item.flag==true?"cRed":"cGreen"}}'>{{item.flag==true?"默认地址":"设为默认"}}</button></view> 
-      <view><button>删除</button></view>
+     <view><button class='{{item.flag==true?"cRed":"cGreen"}}' data-index="{{index}}" catchtap='setDefault'>{{item.flag==true?"默认地址":"设为默认"}}</button></view> 
+      <view><button catchtap='delAddr'>删除</button></view>
     </view>
     <view>
       <text>收货人：{{item.name}}</text>
@@ -29,5 +29,5 @@
  <view class='bottomCont'>
     <view bindtap='toAddAddr'>+ 新增收货地址
     </view>
-    <view>使用微信地址</view>
+    <view bindtap='myaddr'>使用微信地址</view>
 </view>

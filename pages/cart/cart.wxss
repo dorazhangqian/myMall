@@ -8,7 +8,7 @@
 .list .listItem{
   height:189rpx;
   display: flex;
-  align-items: center
+  align-items: center;
 }
 .listItem .detail{
  height:100%;
