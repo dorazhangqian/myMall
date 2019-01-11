@@ -1,6 +1,5 @@
 // pages/goodsList/goodsList.js
 Page({
-
   /**
    * 页面的初始数据
    */
@@ -19,7 +18,12 @@ Page({
         title: '学生看书架临帖读书架书立神器阅读架多功能竹书本读书神器',
         price: '29.00'
       }
-    ]
+    ],
+    comp:true,
+    saleS1:false,
+    saleS2:false,
+    priceS1:false,
+    priceS2:false
 
   },
 
@@ -116,6 +120,59 @@ Page({
   enterSearch() {
     wx.navigateTo({
       url: '../search/search',
+    })
+  }
+  ,
+  // 加入购物车
+  addToCart() {
+    wx.showToast({
+      title: '加入成功',
+    })
+  },
+  // 销售量排序
+  saleSort(e){
+    this.setData({
+      comp: false
+    })
+    console.log(e.currentTarget.dataset.key);
+    if(e.currentTarget.dataset.key == 'up'){
+      this.setData({
+        saleS1:true,
+        saleS2: false
+      })
+    }else{
+      this.setData({
+        saleS1: false,
+        saleS2: true
+      })
+    }
+  },
+  // 价格排序
+  priceSort(e) {
+    this.setData({
+      comp: false
+    })
+    console.log(e.currentTarget.dataset.key);
+    if (e.currentTarget.dataset.key == 'up') {
+      this.setData({
+       priceS1: true,
+        priceS2: false
+      })
+    } else {
+      this.setData({
+        priceS1: false,
+        priceS2: true
+      })
+    }
+  },
+  // 综合排序
+  comprehensive(){
+    this.setData({
+      comp:true,
+      priceS1: false,
+      priceS2: false,
+      saleS1: false,
+      saleS2: false
     })
   }
 })

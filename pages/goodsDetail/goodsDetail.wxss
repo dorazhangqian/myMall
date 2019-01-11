@@ -123,9 +123,9 @@ swiper-item image{
   background-color: #F44225;
   color:#fff;
 }
-.choose .chooseView button.btn1::after{
+/* .choose .chooseView button.btn1::after{
   border:none;
-}
+} */
 .choose .chooseView button.btn2{
   background-color: #fff;
   color:#282828;

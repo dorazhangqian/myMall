@@ -8,16 +8,14 @@
 </view>
 
 <view class="classify">
-    <scroll-view class="left-navbar" scroll-y="true">
+ <scroll-view class="left-navbar" scroll-y="true">
         <view wx:for-index="index" class="list-item {{classIndex==index?'activt':''}}"  wx:for="{{class}}"   wx:key="{{item.id}}"  bindtap="classTap" data-index="{{index}}" data-id="{{item.id}}" data-title="{{item.title}}">{{item.title}}</view>
     </scroll-view>
-
-
 
     <scroll-view id="right" scroll-y="true" scroll-top="{{scrollTop}}">
         <!-- 商品展示 -->
         <view class="goods-list">
-            <view class="goods-list-item" wx:for="{{classType}}" wx:key="{{item.id}}" data-id="{{item.id}}" catchtap='viewDetail'>
+            <view class="goods-list-item" wx:for="{{classType}}" wx:key="{{item.id}}" data-id="{{item.id}}"  bindtap='toGoodList'>
                 <view class="goods-list-img">
                     <image class="showp-img" src="{{item.img}}" mode="aspectFill"></image>
                 </view>

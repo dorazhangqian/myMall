@@ -133,5 +133,10 @@ Page({
     wx.navigateTo({
       url: '../search/search',
     })
+  },
+  toGoodList(){
+    wx.navigateTo({
+      url: '../goodsList/goodsList',
+    })
   }
 })

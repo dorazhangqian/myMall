@@ -1,20 +1,18 @@
 <!--pages/addrMan/addrMan.wxml-->
-<view class='addr'>
-    <view class='addrUser'>
-      <text>收货人：姓名</text>
-      <text>18928928928</text>
-    </view>
-    <view class='addrs'><text>收货地址：四川省 成都市 武侯区 什么街道什么号</text>  <image src='../../assets/icons/per_header_ic_more.png'></image></view>
+<block wx:for="{{listItem}}" wx:key="{{index}}">
+<view class='addr' data-item='{{item}}' bindtap='backOrder'>
+  <view class='addrUser'>
+    <text>收货人：{{item.name}}</text>
+    <text>{{item.phone}}</text>
+  </view>
+  <view class='addrs'>
+    <text>收货地址：{{item.addr}}</text>
+    <image src='../../assets/icons/per_header_ic_more.png'></image>
+  </view>
 </view>
+</block>
 
-<view class='addr'>
-    <view class='addrUser'>
-      <text>收货人：姓名</text>
-      <text>18928928928</text>
-    </view>
-    <view class='addrs'><text>收货地址：四川省 成都市 武侯区 什么街道什么号</text>  <image src='../../assets/icons/per_header_ic_more.png'></image></view>
-</view>
 
 <view class='bottomCont' bindtap='addAddr'>
   + 新增收货地址
-  </view>
+</view>

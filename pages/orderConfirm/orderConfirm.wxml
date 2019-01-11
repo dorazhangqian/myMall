@@ -2,7 +2,7 @@
 <view class='oC_addr'>
   <view bindtap='toAddr'>
     <image src='../../assets/icons/oder_ic_pint.png'></image>
-    <text>请选择收获地址</text>
+    <text>{{addr.addr ? addr.addr : "请选择收获地址"}}</text>
   </view>
   <image class='image' src='../../assets/icons/per_header_ic_more.png'></image>
 </view>

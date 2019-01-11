@@ -27,7 +27,11 @@ Page({
     flag: true,
     flagPoster:true,
     indicatoractivecolor: '#F44225',
-    collection:false
+    collection:false,
+    classIndexColor:0,
+    classIndexSpecs: 0,
+    color:['红色','黑色'],
+    specs:['规格1','规格2']
   },
 
   /**
@@ -207,9 +211,40 @@ Page({
       urls: [current]
     })
   },
+  // 收藏
   collection(){
     this.setData({
       collection: !this.data.collection
+    })
+  },
+  // 选择颜色
+  chooseColor(e){
+    this.setData({
+      classIndexColor: e.currentTarget.dataset.index,
+    });
+  },
+  // 选择规格
+  chooseSpecs(e){
+    this.setData({
+      classIndexSpecs: e.currentTarget.dataset.index,
+    });
+  },
+  // 去购物车
+  toCart(){
+    wx.switchTab({
+      url: '../cart/cart'
+    })
+  },
+  // 去确认订单
+  toOrderConfirm(){
+    wx.navigateTo({
+      url: '../orderConfirm/orderConfirm',
+    })
+  },
+  // 加入购物车
+  addToCart(){
+    wx.showToast({
+      title: '加入成功',
     })
   }
 })

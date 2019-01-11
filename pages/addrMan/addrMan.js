@@ -5,7 +5,10 @@ Page({
    * 页面的初始数据
    */
   data: {
-
+    listItem:[
+      { name: '姓名', phone: '18928928928', addr:'四川省 成都市 武侯区 什么街道什么号'},
+      { name: '姓名', phone: '18928928928', addr: '四川省 成都市 武侯区 什么街道什么号' }
+    ]
   },
 
   /**
@@ -67,5 +70,19 @@ Page({
     wx.navigateTo({
       url: '../addAddr/addAddr'
     })
+  },
+  // 选择地址返回上一页
+  backOrder(e){
+    console.log(e);
+    var pages = getCurrentPages(); // 获取页面栈
+    var currPage = pages[pages.length - 1]; // 当前页面
+    var prevPage = pages[pages.length - 2]; // 上一个页面
+    prevPage.setData({
+      addr: e.currentTarget.dataset.item// 假数据
+    })
+    wx.navigateBack({
+        delta: 1
+    })
+
   }
 })

@@ -8,28 +8,29 @@ Page({
     listItem: [
       { id: '1', title: '学生看书架临帖读书架书立神器阅', img: '../../assets/imgs/listImg2.png', num: '3', price: '34.99', attr: '属性1;属性2' },
       { id: '2', title: '学生看书架临帖读书架书立神器阅读架多功', img: '../../assets/imgs/listImg2.png', num: '3', price: '34.99', attr: '属性1;属性2' }
-    ]
+    ],
+    addr:{}
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-
+ 
   },
 
   /**
    * 生命周期函数--监听页面初次渲染完成
    */
   onReady: function () {
-
+ 
   },
 
   /**
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-
+    console.log(this.data.addr)
   },
 
   /**
@@ -43,7 +44,6 @@ Page({
    * 生命周期函数--监听页面卸载
    */
   onUnload: function () {
-
   },
 
   /**
